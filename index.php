@@ -10,27 +10,64 @@
         <script src="view/common/js/bootstrap.min.js"></script>
     </head>
     <body>
-
+        
         <div class="container">
             <?php
                 // we store the root of the project in a global variable
                 $RootDir = __DIR__;
+                $isConnected = false;
                 
+                try {
+                    $database = new PDO('mysql:host=localhost;dbname=Suivi_client;charset=utf8', 'root', '');
+                } catch (Exception $e) {
+                    die('Erreur : '.$e->getMessage());
+                }
+
                 // we add the main menu to the page
                 include ('view/common/menu.php');
                 
                 // we set the page based on a URL parameter
-                $page = $_GET['page'];
+                $page = 'accueil';
+                
+                if( isset($_GET['page']) ){
+                    $page = $_GET['page'];
+                }
+                
                 switch ($page){
+                    case 'accueil' :
+                        include ('view/accueil/accueil.php');
+                        break;
                     case 'connection' :
                         include ('view/user/connection.php');
                         break;
                     case 'inscription' :
                         include ('view/user/inscription.php');
                         break;
+                    case 'comment_form' :
+                        include ('view/comment/comment_form.php');
+                        break;
+                    case 'comment_list' :
+                        include ('view/comment/comment_list.php');
+                        break;
+                    case 'demand_form' :
+                        include ('view/demand/demand_form.php');
+                        break;
+                    case 'demand_list' :
+                        include ('view/demand/demand_list.php');
+                        break;
+                    case 'project_form' :
+                        include ('view/project/project_form.php');
+                        break;
+                    case 'project_list' :
+                        include ('view/project/project_list.php');
+                        break;
+                    default :
+                        include ('view/accueil/accueil.php');
+                        break;
                 }
+                
             ?>
         </div>
-
+        
     </body>
 </html>

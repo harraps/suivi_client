@@ -1,5 +1,5 @@
 -- DATABASE GENERATION SCRIPT --
-create database if not exists `Hollenfest`;
+create database if not exists `Suivi_client`;
 use `Suivi_client`;
 
 set FOREIGN_KEY_CHECKS = 0;
@@ -27,7 +27,7 @@ create table if not exists `Project` (
 -- Table for mapping users with projects
 create table if not exists `UserProject` (
     `user_id`    int not null comment "ID of the user working on the project",
-    `project_id` int not null comment "ID of the project the user is working on"
+    `project_id` int not null comment "ID of the project the user is working on",
     foreign key `fk_UserProject_user_id`(`user_id`)       references `User`(`user_id`),
     foreign key `fk_UserProject_project_id`(`project_id`) references `Project`(`project_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment="map users with projects";
