@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,16 +18,11 @@
             <?php
                 // we store the root of the project in a global variable
                 $RootDir = __DIR__;
-                $isConnected = false;
-                
-                try {
-                    $database = new PDO('mysql:host=localhost;dbname=Suivi_client;charset=utf8', 'root', '');
-                } catch (Exception $e) {
-                    die('Erreur : '.$e->getMessage());
-                }
+                include_once('controller/common/dbConnection.php');
+                include_once('controller/common/controller.php');
 
                 // we add the main menu to the page
-                include ('view/common/menu.php');
+                include_once('view/common/menu.php');
                 
                 // we set the page based on a URL parameter
                 $page = 'accueil';
@@ -65,7 +63,6 @@
                         include ('view/accueil/accueil.php');
                         break;
                 }
-                
             ?>
         </div>
         

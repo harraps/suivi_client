@@ -15,7 +15,9 @@ create table if not exists `User`(
     `user_address`    varchar(50) comment "address of the user",
     `user_phone`      char(10)    comment "phone number of the user",
     -- the password of the user has to be encrypted for security reasons
-    `user_password`   varchar(20) not null comment "encrypted password of the user"
+    `user_password`   varchar(40) not null comment "encrypted password of the user",
+    -- two users cannot have the same email address
+    unique key `u_User_user_email`(`user_email`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment="contains the users";
 
 -- Table for the projects
@@ -28,6 +30,7 @@ create table if not exists `Project` (
 create table if not exists `UserProject` (
     `user_id`    int not null comment "ID of the user working on the project",
     `project_id` int not null comment "ID of the project the user is working on",
+    unique key `u_UserProject`(`user_id`,`project_id`),
     foreign key `fk_UserProject_user_id`(`user_id`)       references `User`(`user_id`),
     foreign key `fk_UserProject_project_id`(`project_id`) references `Project`(`project_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment="map users with projects";
@@ -52,7 +55,7 @@ create table if not exists `Demand` (
 
 -- Table for comments
 create table if not exists `Comment`(
-    `comment_id`      int not null comment "ID of the comment",
+    `comment_id`      int auto_increment primary key comment "ID of the comment",
     `user_id`         int not null comment "ID of the user who made this comment",
     `demand_id`       int not null comment "ID of the demand the comment is related to",
     `comment_content` varchar(500) not null comment "content of the comment",
