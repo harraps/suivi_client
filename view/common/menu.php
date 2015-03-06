@@ -23,15 +23,7 @@
                 
                 <ul class="nav navbar-nav">
                     <?php if( $_controller->getIsConnected() ){ ?>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Projets <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<?php echo $RootURL; ?>?page=project_list">Voir les projets</a></li>
-                            <li><a href="<?php echo $RootURL; ?>?page=project_form">Créer un projets</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="<?php echo $RootURL; ?>?page=project_list">Projets</a></li>
                     <?php if( $_controller->getIsAdmin() ){ ?>
                     <li><a href="<?php echo $RootURL; ?>?page=user_list">Utilisateurs</a></li>
                     <?php 

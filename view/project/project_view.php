@@ -17,12 +17,34 @@
     </div>
 </div>
 
+<?php if( isset($_GET['error']) ){ ?>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Attention !</h4>
+            <p>
+                <?php 
+                    if( $_GET['error'] == "missing" ){
+                        echo "Vous avez oublié de remplir les champs.";
+                    }elseif( $_GET['error'] == "invalid_id" ){
+                        echo "L'id est invalide.";
+                    }else{
+                        echo "Une erreur inconnue est survenue.";
+                    }
+                ?>
+            </p>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
 <div class="row well">
     <div class="col-lg-12">
         <a href="<?php echo $RootURL."?page=demand_form&project_id=".$project->getId(); ?>" class="btn btn-success">
-            <span class="visible-xs">+</span>
-            <span class="hidden-xs">Ajouter une demande</span>
+            +<span class="hidden-xs"> Ajouter une demande</span>
         </a>
+        <?php if( $_controller->getIsAdmin() ){ ?>
         <div class="btn-group pull-right">
             <a href="<?php echo $RootURL."?page=project_form&project_id=".$project->getId(); ?>" class="btn btn-warning">
                 <span class="visible-xs">*</span>
@@ -33,6 +55,7 @@
                 <span class="hidden-xs">Supprimer</span>
             </a>
         </div>
+        <?php } ?>
     </div>
 </div>
 
@@ -113,7 +136,7 @@
             ++$tier_count;
             $tier_count %= 3;
             if( $tier_count == 0 ){
-                echo '</div><div class="row"';
+                echo '</div><div class="row">';
             }
         }
     ?>

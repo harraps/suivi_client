@@ -29,7 +29,6 @@ require_once('controller/Controller.php'); // the Controller.php contains the ac
                     $page = $_GET['page'];
                 }
                 
-                // TODO redirect the user if not allowed to go to a page
                 switch ($page){
                     case 'accueil' :
                         include ('view/accueil/accueil.php');

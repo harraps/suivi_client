@@ -1,4 +1,7 @@
 <?php
+
+/* NOT CURRENTLY USED */
+
 $RootDir = "../../"; // we set the Root directory relatively to this file
 require_once('../Controller.php');
 

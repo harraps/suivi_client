@@ -6,8 +6,11 @@ require_once('../Controller.php');
 if( isset($_GET['project_id']) ){
     if( !empty($_GET['project_id']) ){
         
-        $project_id = (int) $_GET['project_id'];
-        $_controller->getProjectManager()->delete($project_id);
+        // only admins can delete a project
+        if( $_controller->getIsAdmin() ){
+            $project_id = (int) $_GET['project_id'];
+            $_controller->getProjectManager()->delete($project_id);
+        }
 
         // everything worked fine we can return to the main page
         header('Location: ../../');

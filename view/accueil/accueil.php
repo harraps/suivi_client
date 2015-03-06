@@ -1,3 +1,25 @@
+<?php if( isset($_GET['error']) ){ ?>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Attention !</h4>
+            <p>
+                <?php 
+                    if( $_GET['error'] == "missing" ){
+                        echo "Vous avez oublié de remplir les champs.";
+                    }elseif( $_GET['error'] == "invalid_id" ){
+                        echo "L'id est invalide.";
+                    }else{
+                        echo "Une erreur inconnue est survenue.";
+                    }
+                ?>
+            </p>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
 <div class="center-block">
     <div class="jumbotron">
         <?php if( !$_controller->getIsConnected() ){ ?>

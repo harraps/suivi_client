@@ -28,30 +28,45 @@
         </div>
     </div>
 </div>
-<?php } ?>
-
-<form action="controller/user/inscription_post.php" method="post" class="row well">
+<?php
+    }
+    
+    $hasRights = FALSE;
+    if( isset($_GET['user_id']) && $_controller->getIsConnected() ){
+        if( !empty($_GET['user_id']) ){
+            $user_id = $_GET['user_id'];
+            if( 
+                $_controller->getIsAdmin() ||
+                ($_controller->getUser()->getId() == $user_id)
+            ){
+                $hasRights = TRUE;
+                $user = $_controller->getUserManager()->get($user_id);
+            }
+        }
+    }
+?>
+<form action="controller/user/inscription_post.php<?php if($hasRights) echo '?user_id='.$user->getId(); ?>" method="post" class="row well">
     <div class="col-sm-6">
         <div class="form-horizontal">
 
             <div class="form-group">
                 <label for="inputFirstname" class="col-lg-2 control-label">Prénom</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputFirstname" name="firstname" placeholder="First name">
+                    <input type="text" class="form-control" id="inputFirstname" name="firstname" placeholder="First name" <?php if($hasRights) echo 'value="'.$user->getFirstName().'"' ?> >
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputLastname" class="col-lg-2 control-label">Nom</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputLastname" name="lastname" placeholder="Last name">
+                    <input type="text" class="form-control" id="inputLastname" name="lastname" placeholder="Last name" <?php if($hasRights) echo 'value="'.$user->getLastName().'"' ?> >
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputEmail" class="col-lg-2 control-label">Email</label>
                 <div class="col-lg-10">
-                    <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email">
+                    <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" <?php if($hasRights) echo 'value="'.$user->getEmail().'"' ?> >
                 </div>
             </div>
 
@@ -77,21 +92,21 @@
             <div class="form-group">
                 <label for="inputAddress" class="col-lg-2 control-label">Adresse*</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address">
+                    <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" <?php if($hasRights) echo 'value="'.$user->getAddress().'"' ?> >
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputPhone" class="col-lg-2 control-label">Téléphone*</label>
                 <div class="col-lg-10">
-                    <input type="tel" class="form-control" id="inputPhone" name="phone" placeholder="Phone">
+                    <input type="tel" class="form-control" id="inputPhone" name="phone" placeholder="Phone" <?php if($hasRights) echo 'value="'.$user->getPhone().'"' ?> >
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputEntity" class="col-lg-2 control-label">Entreprise</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputEntity" name="entity" placeholder="Entity">
+                    <input type="text" class="form-control" id="inputEntity" name="entity" placeholder="Entity" <?php if($hasRights) echo 'value="'.$user->getEntity().'"' ?> >
                 </div>
             </div>
             

@@ -6,6 +6,28 @@
     </div>
 </div>
 
+<?php if( isset($_GET['error']) ){ ?>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Attention !</h4>
+            <p>
+                <?php 
+                    if( $_GET['error'] == "missing" ){
+                        echo "Vous avez oublié de remplir les champs.";
+                    }elseif( $_GET['error'] == "invalid_id" ){
+                        echo "L'id est invalide.";
+                    }else{
+                        echo "Une erreur inconnue est survenue.";
+                    }
+                ?>
+            </p>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
 <form  action="controller/comment/comment_form_post.php?demand_id=<?php echo $_GET['demand_id']; ?>" method="post" class="row">
     <div class="col-sm-8 col-sm-offset-2 well">
 

@@ -23,10 +23,10 @@ if( isset($_GET['demand_id']) ){
                 header('Location: ../../?page=demand_view&demand_id='.$_GET['demand_id']);
 
             }else{
-                header('Location: ../../?page=comment_form_post&error=missing&demand_id='.$_GET['demand_id']);
+                header('Location: ../../?page=comment_form&error=missing&demand_id='.$_GET['demand_id']);
             }
         }else{
-            header('Location: ../../?page=comment_form_post&error=unknown&demand_id='.$_GET['demand_id']);
+            header('Location: ../../?page=comment_form&error=unknown&demand_id='.$_GET['demand_id']);
         }
     }else{
         header('Location: ../../?error=invalid_id');

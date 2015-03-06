@@ -6,10 +6,35 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
         <div class="page-header">
+            <?php if( $_controller->getIsAdmin() ){ ?>
+            <a href="<?php echo $RootURL; ?>?page=project_form" class="btn btn-success pull-right" > + Nouveau projet</a>
+            <?php } ?>
             <h1>Projets</h1>
         </div>
     </div>
 </div>
+
+<?php if( isset($_GET['error']) ){ ?>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Attention !</h4>
+            <p>
+                <?php 
+                    if( $_GET['error'] == "missing" ){
+                        echo "Vous avez oublié de remplir les champs.";
+                    }elseif( $_GET['error'] == "invalid_id" ){
+                        echo "L'id est invalide.";
+                    }else{
+                        echo "Une erreur inconnue est survenue.";
+                    }
+                ?>
+            </p>
+        </div>
+    </div>
+</div>
+<?php } ?>
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">

@@ -32,10 +32,14 @@ class UserManager {
     }
 
     public function delete($user_id){
-        $user_id = (int) $user_id;
+        
         // we remove the user from both the User table and the UserProject table
         $this->_db->exec('DELETE FROM `UserProject` WHERE `user_id` = '.$user_id);
         $this->_db->exec('DELETE FROM `Comment` WHERE `user_id` = '.$user_id);
+        $q = $this->_db->query('SELECT `demand_id` FROM `Demand` WHERE `user_id` = '.$user_id);
+        while ($data = $q->fetch(PDO::FETCH_ASSOC)){
+            $this->_db->exec('DELETE FROM `Comment` WHERE `demand_id` = '.$data['demand_id']);
+        }
         $this->_db->exec('DELETE FROM `Demand`  WHERE `user_id` = '.$user_id);
         $this->_db->exec('DELETE FROM `User`    WHERE `user_id` = '.$user_id);
     }

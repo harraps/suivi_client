@@ -81,7 +81,7 @@ class DemandManager {
             .'`demand_date_test` = :date_test, '
             .'`demand_date_test_validation` = :date_test_valid, '
             .'`demand_date_production` = :date_prod, '
-            .'`demand_date_production_validation` = :date_prod_valid, '
+            .'`demand_date_production_validation` = :date_prod_valid '
             .'WHERE `demand_id` = :id '
         );
         $q->bindValue(':title', $demand->getTitle());
@@ -100,6 +100,22 @@ class DemandManager {
 
     public function setDatabase(PDO $database){
         $this->_db = $database;
+    }
+    
+    public function getLink( $user_id, $demand_id ){
+        $user_id = (int) $user_id;
+        $demand_id = (int) $demand_id;
+        $q = $this->_db->query(
+            'SELECT `demand_id` '
+            .'FROM `UserProject` AS A, `Demand` AS B '
+            .'WHERE A.`project_id` = B.`project_id` '
+            .' AND A.`user_id` = '.$user_id
+            .' AND B.`demand_id` = '.$demand_id
+        );
+        if( $q->fetch(PDO::FETCH_ASSOC) ){
+            return TRUE;
+        }
+        return FALSE;
     }
 
 }

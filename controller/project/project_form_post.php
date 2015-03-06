@@ -19,10 +19,20 @@ if( isset($_POST['name']) ){
             'project_name' => $_POST['name'],
             'users_id' => $users_id
         ]);
-        $_conroller->getProjectManager()->add($project);
+        
+        if( isset($_GET['project_id']) ){
+            if( !empty($_GET['project_id']) ){
+                
+                $project->setId($_GET['project_id']);
+                $_controller->getProjectManager()->update($project);
+            }
+        }else{
+            $_controller->getProjectManager()->add($project);
+        }
         
         // everything worked fine we can return to the list of projects
         header('Location: ../../?page=project_list');
+        
     }else{
         header('Location: ../../?page=project_form&error=missing');
     }

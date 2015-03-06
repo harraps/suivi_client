@@ -110,7 +110,7 @@ class ProjectManager {
     public function update(Project $project){
         // first we update the project in the Project table
         $q = $this->_db->prepare(
-            'INSERT INTO `Project` SET '
+            'UPDATE `Project` SET '
             .'`project_name` = :name '
             .'WHERE `project_id` = :id '
         );
@@ -118,7 +118,10 @@ class ProjectManager {
         $q->bindValue(':id', $project->getId());
         $q->execute();
         
-        // then we update it in the UserProject table
+        // then we remove all the links between users and this project
+        $this->_db->exec('DELETE FROM `UserProject` WHERE `project_id` = '.$project->getId());
+        
+        // so we can reset the new links
         $r = $this->_db->prepare(
             'INSERT INTO `UserProject` SET '
             .'`user_id` = :user, '
@@ -134,9 +137,19 @@ class ProjectManager {
     public function setDatabase(PDO $database){
         $this->_db = $database;
     }
-
-    // create a link between the specified user and project
-    public function makeLink($user_id, $project_id){
+    
+    public function getLink($user_id, $project_id){
+        $user_id = (int) $user_id;
+        $project_id = (int) $project_id;
+        $q = $this->_db->query('SELECT * FROM `UserProject` WHERE `user_id` = '.$user_id.' AND `project_id` = '.$project_id);
+        if( $q->fetch(PDO::FETCH_ASSOC) ){
+            return TRUE;
+        }
+        return FALSE;
+    }
+    public function setLink($user_id, $project_id){
+        $user_id = (int) $user_id;
+        $project_id = (int) $project_id;
         $q = $this->_db->prepare(
             'INSERT INTO `UserProject` SET '
             .'`user_id` = :user, '
@@ -145,6 +158,15 @@ class ProjectManager {
         $q->bindValue(':user', $user_id);
         $q->bindValue(':project', $project_id);
         $q->execute();
+    }
+    
+    public function exists($project_id){
+        $project_id = (int) $project_id;
+        $q = $this->_db->query('SELECT * FROM `Project` WHERE `project_id` = '.$project_id);
+        if( $q->fetch(PDO::FETCH_ASSOC) ){
+            return TRUE;
+        }
+        return FALSE;
     }
     
 }

@@ -11,7 +11,6 @@ require_once($RootDir.'model/demand/Demand.php');
 require_once($RootDir.'model/demand/DemandManager.php');
 require_once($RootDir.'model/comment/Comment.php');
 require_once($RootDir.'model/comment/CommentManager.php');
-require_once($RootDir.'controller/Controller.php');
 
 $_controller = new Controller();
 

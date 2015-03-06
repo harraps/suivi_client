@@ -11,10 +11,33 @@ if( !$_controller->getIsConnected() || !$_controller->getIsAdmin() ){
     </div>
 </div>
 
+<?php if( isset($_GET['error']) ){ ?>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Attention !</h4>
+            <p>
+                <?php 
+                    if( $_GET['error'] == "missing" ){
+                        echo "Vous avez oublié de remplir les champs.";
+                    }elseif( $_GET['error'] == "invalid_id" ){
+                        echo "L'id est invalide.";
+                    }else{
+                        echo "Une erreur inconnue est survenue.";
+                    }
+                ?>
+            </p>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="form-horizontal">
-
+            
+            <a href="<?php echo $RootURL; ?>?page=inscription" class="btn btn-success pull-right">+ Ajouter</a>
             <span class="help-block">Liste des utilisateurs du site.</span>
             <table class="table table-striped table-hover ">
                 <thead>
@@ -24,6 +47,7 @@ if( !$_controller->getIsConnected() || !$_controller->getIsAdmin() ){
                         <th>Nom</th>
                         <th>Email</th>
                         <th>Entreprise</th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -44,24 +68,17 @@ if( !$_controller->getIsConnected() || !$_controller->getIsAdmin() ){
                         <td><?php echo $user->getLastName(); ?></td>
                         <td><?php echo $user->getEmail(); ?></td>
                         <td><?php echo $user->getEntity(); ?></td>
+                        <td>                        
+                            <a href="<?php echo $RootURL."?page=inscription&user_id=".$user->getId(); ?>" class="btn btn-xs btn-warning pull-right">
+                                <span class="visible-xs">*</span>
+                                <span class="hidden-xs">Modifier</span>
+                            </a>
+                        </td>
                         <td>
-                            <div class="pull-right">
-                                <?php if( $user->getIsAdmin() ){ ?>
-                                    <a href="<?php echo $RootURL."controller/user/user_remove_admin.php?user_id=".$user->getId(); ?>" class="btn btn-xs btn-warning">
-                                        <span class="visible-xs">-</span>
-                                        <span class="hidden-xs">Retirer Droits</span>
-                                    </a>
-                                <?php }else{ ?>
-                                    <a href="<?php echo $RootURL."controller/user/user_add_admin.php?user_id=".$user->getId(); ?>" class="btn btn-xs btn-success">
-                                        <span class="visible-xs">+</span>
-                                        <span class="hidden-xs">Ajouter Droits</span>
-                                    </a>
-                                <?php } ?>
-                                <a href="<?php echo $RootURL."controller/user/user_delete.php?user_id=".$user->getId(); ?>" class="btn btn-xs btn-danger">
-                                    <span class="visible-xs">x</span>
-                                    <span class="hidden-xs">Supprimer</span>
-                                </a>
-                            </div>
+                            <a href="<?php echo $RootURL."controller/user/user_delete.php?user_id=".$user->getId(); ?>" class="btn btn-xs btn-danger pull-right">
+                                <span class="visible-xs">x</span>
+                                <span class="hidden-xs">Supprimer</span>
+                            </a>
                         </td>
                     </tr>
                     <?php 
