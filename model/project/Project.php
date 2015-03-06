@@ -1,13 +1,10 @@
 <?php
 
-/*require 'User.php';
-require 'Demand.php';
-require 'Comment.php';*/
-
 class Project {
 
     private $_id;
     private $_name;
+    private $_users_id = array();
 
     public function __construct( array $data){
         $this->hydrate($data);
@@ -16,6 +13,7 @@ class Project {
     public function hydrate( array $data ){
         $this->hmatch($data, 'setId', 'project_id');
         $this->hmatch($data, 'setName', 'project_name');
+        $this->hmatch($data, 'setUsers', 'users_id');
     }
     private function hmatch(array $data, $method, $attribute){
         if (isset($data[$attribute])){
@@ -53,68 +51,40 @@ class Project {
         }
     }
 
-    /*public function getUsers(){
-        $response = $database->query('select * from `User` where `project_id` = '.$this->_id);
-        $users = array();
-        while ($data = $response->fetch()){
-            $user = new User();
-            $user->setAll(
-                $data['user_id'],
-                $data['user_entity'],
-                $data['user_first_name'],
-                $data['user_last_name'],
-                $data['user_email'],
-                $data['user_address'],
-                $data['user_phone']
-            );
-            $users[] = $user;
+    public function getUsers(){
+        return $this->_users_id;
+    }
+    public function setUsers($users_id){
+        if( is_array($users_id) ){
+            
+            // we make sure that the array contains only ints
+            foreach( $users_id as &$u ){
+                $u = (int) $u;
+            }
+            $this->_users_id = $users_id;
+            
+        }else{
+            throw new Exception('Parameter not of the correct type, should be array.');
         }
-        return $users;
     }
     public function addUser($user){
         // we check that $user is an User object
-        if( get_class($user) == "User" ){
-            // we check that data in the user object is valid
-            if( $user->areTypesCorrect() ){
-                // we check that the user isn't already attributed to the project
-                $user_test = new User();
-                $user_test->setFromId($this->_user_id);
-                if( !$user.equals($user_test) ){
-                    // TODO
-                }else{
-                    throw new Exception('User already asigned to the project.');
-                }
-            }else{
-                throw new Exception('User object contains invalid data.');
-            }   
+        if( is_a($user, "User") ){
+            if( !in_array($user->getId(), $this->_users_id) ){
+                $this->_users_id[] = $user->getId();
+            }
         }else{
             throw new Exception('the object is not a User object.');
         }
-    }*/
-
-    /*public function getDemands(){
-        $response = $database->query('select * from `Demand` where `project_id` = '.$this->_id);
-        $demands = array();
-        while ($data = $response->fetch()){
-            $demand = new Demand();
-            $demand->setAll(
-                $data['demand_id'],
-                $data['demand_title'],
-                $data['demand_content'],
-                $data['user_id'],
-                $data['project_id'],
-                $data['demand_date_creation'],
-                $data['demand_date_wished'],
-                $data['demand_date_test'],
-                $data['demand_date_test_validation'],
-                $data['demand_date_production'],
-                $data['demand_date_production_validation']
-            );
-            $demands[] = $demand;
-        }
-        return $demands;
     }
-    public function addDemand($demand){ // TODO
-        $this->_demands += $demand;
-    }*/
+    public function addUserById($user_id){
+        $user_id = (int) $user_id;
+        if( $user_id > 0 ){
+            if( !in_array($user_id, $this->_users_id) ){
+                $this->_users_id[] = $user_id;
+            }
+        }
+    }
+    
+    
 }

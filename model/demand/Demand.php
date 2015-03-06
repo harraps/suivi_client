@@ -28,12 +28,12 @@ class Demand {
         $this->hmatch($data, 'setContent', 'demand_content');
         $this->hmatch($data, 'setUser', 'user_id');
         $this->hmatch($data, 'setProject', 'project_id');
-        $this->hmatch($data, 'DateCreation', 'demand_date_creation');
-        $this->hmatch($data, 'DateWished', 'demand_date_wished');
-        $this->hmatch($data, 'DateTest', 'demand_date_test');
-        $this->hmatch($data, 'DateTestValidation', 'demand_date_test_validation');
-        $this->hmatch($data, 'DateProduction', 'demand_date_production');
-        $this->hmatch($data, 'DateProductionValidation', 'demand_date_production_validation');
+        $this->hmatch($data, 'setDateCreation', 'demand_date_creation');
+        $this->hmatch($data, 'setDateWished', 'demand_date_wished');
+        $this->hmatch($data, 'setDateTest', 'demand_date_test');
+        $this->hmatch($data, 'setDateTestValidation', 'demand_date_test_validation');
+        $this->hmatch($data, 'setDateProduction', 'demand_date_production');
+        $this->hmatch($data, 'setDateProductionValidation', 'demand_date_production_validation');
     }
     private function hmatch(array $data, $method, $attribute){
         if (isset($data[$attribute])){
@@ -108,17 +108,18 @@ class Demand {
     public function getDateCreation(){
         return $this->_date_creation;
     }
-    public function setDateCreation(){
-        $this->_date_creation = date("Y-m-d");
+    public function setDateCreation( $date_creation ){
+        if( $this->validatedate($date_creation) ){
+            $this->_date_creation = $date_creation;
+        }else{
+            throw new Exception('Parameter not of the correct type, should be date.');
+        }
     }
     
     public function getDateWished(){
         return $this->_date_wished;
     }
-    public function setDateWished( $date_wished = null ){
-        if( $date_wished == null ){
-            $date_wished = date("Y-m-d");
-        }
+    public function setDateWished( $date_wished ){
         if( $this->validatedate($date_wished) ){
             $this->_date_wished = $date_wished;
         }else{
@@ -129,10 +130,7 @@ class Demand {
     public function getDateTest(){
         return $this->_date_test;
     }
-    public function setDateTest($date_test = null){
-        if( $date_test == null ){
-            $date_test = date("Y-m-d");
-        }
+    public function setDateTest( $date_test ){
         if( $this->validatedate($date_test) ){
             $this->_date_test = $date_test;
         }else{
@@ -143,10 +141,7 @@ class Demand {
     public function getDateTestValidation(){
         return $this->_date_test_valid;
     }
-    public function setDateTestValidation($date_test_valid = null){
-        if( $date_test_valid == null ){
-            $date_test_valid = date("Y-m-d");
-        }
+    public function setDateTestValidation( $date_test_valid ){
         if( $this->validatedate($date_test_valid) ){
             $this->_date_test_valid = $date_test_valid;
         }else{
@@ -157,10 +152,7 @@ class Demand {
     public function getDateProduction(){
         return $this->_date_prod;
     }
-    public function setDateProduction($date_prod = null){
-        if( $date_prod == null ){
-            $date_prod = date("Y-m-d");
-        }
+    public function setDateProduction( $date_prod ){
         if( $this->validatedate($date_prod) ){
             $this->_date_prod = $date_prod;
         }else{
@@ -171,10 +163,7 @@ class Demand {
     public function getDateProductionValidation(){
         return $this->_date_prod_valid;
     }
-    public function setDateProductionValidation($date_prod_valid = null){
-        if( $date_prod_valid == null ){
-            $date_prod_valid = date("Y-m-d");
-        }
+    public function setDateProductionValidation( $date_prod_valid ){
         if( $this->validatedate($date_prod_valid) ){
             $this->_date_prod_valid = $date_prod_valid;
         }else{
@@ -190,21 +179,4 @@ class Demand {
             throw new Exception('Parameters not of the correct type, should be string.');
         }
     }
-    
-    /*public function getComments(){
-        $response = $database->query('select * from `Comment` where `demand_id` = '.$this->_id);
-        $comments = array();
-        while ($data == $response->fetch){
-            $comment = new Comment();
-            $comment->setAll(
-                $data['comment_id'],
-                $data['user_id'],
-                $data['demand_id'],
-                $data['comment_content'],
-                $data['comment_date']
-            );
-            $comments[] = $comment;
-        }
-        return $comments;
-    }*/
 }

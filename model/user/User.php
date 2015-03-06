@@ -3,6 +3,7 @@
 class User {
     
     private $_id;
+    private $_isAdmin = false;
     private $_entity;
     private $_firstname;
     private $_lastname;
@@ -17,6 +18,7 @@ class User {
     
     public function hydrate( array $data ){
         $this->hmatch($data, 'setId', 'user_id');
+        $this->hmatch($data, 'setIsAdmin', 'user_isAdmin');
         $this->hmatch($data, 'setEntity', 'user_entity');
         $this->hmatch($data, 'setFirstName', 'user_first_name');
         $this->hmatch($data, 'setLastName', 'user_last_name');
@@ -47,27 +49,6 @@ class User {
         return false;
     }
     
-    // since we can create an empty object, we check that this object contains data where needed
-    public function areTypesCorrect(){
-        if(
-            is_int($this->_id) &&
-            is_string($this->_entity) &&
-            is_string($this->_firstname) &&
-            is_string($this->_lastname) &&
-            is_string($this->_email) &&
-            ( is_string($this->_address) || ($this->_address == null) ) &&
-            ( is_string($this->_phone) || ($this->_phone == null) )
-        ){
-            if( strpos($this->_email,'@') !== false ){
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    // The setters are in case the user wants to change his personnal informations
-    
-    // the id attribute doesn't have a setter
     public function getId(){
         return $this->_id;
     }
@@ -76,6 +57,15 @@ class User {
         if( $id > 0 ){
             $this->_id = $id;
         }
+    }
+    
+    // this allow us to display additional controls for admin users
+    public function getIsAdmin(){
+        return $this->_isAdmin;
+    }
+    public function setIsAdmin($isAdmin){
+        $isAdmin = (bool) $isAdmin;
+        $this->_isAdmin = $isAdmin;
     }
     
     public function getEntity(){
@@ -174,18 +164,4 @@ class User {
             $this->setPassword($cyph_newPass);
         }
     }
-    
-    /*public function getProjects(){
-        $data = $database->query('select * from `Project` where `user_id` = '.$this->_id);
-        $projects = array();
-        while ($data->fetch()){
-            $project = new Project();
-            $project->setAll(
-                $data['project_id'],
-                $data['project_name']
-            );
-            $projects[] = $project;
-        }
-        return $projects;
-    }*/
 }

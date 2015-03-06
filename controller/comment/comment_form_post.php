@@ -1,32 +1,36 @@
-<div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-        <div class="page-header">
-            <h1>Commentaire</h1>
-        </div>
-    </div>
-</div>
+<?php
+$RootDir = "../../"; // we set the Root directory relatively to this file
+require_once('../Controller.php');
 
-<form class="row">
-    <div class="col-sm-8 col-sm-offset-2 well">
-        <!--div class="form-horizontal"-->
+// we check that all the necessary fields are filled
+if( isset($_GET['demand_id']) ){
 
-            <div class="form-group">
-                <label for="textArea" class="col-sm-3 control-label">Votre commentaire</label>
-                <div class="col-sm-9">
-                    <textarea class="form-control" rows="3" style="resize:vertical;"></textarea>
-                    <span class="help-block">Ajoutez votre commentaire sur la demande que vous avez sélectionné (500 caractères maximum).</span>
-                </div>
-            </div>
+    if( !empty($_GET['demand_id']) ){
 
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <div class="pull-right">
-                        <button type="reset" class="btn btn-default">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Valider</button>
-                    </div>
-                </div>
-            </div>
+        if( isset($_POST['content']) ){
+            if( !empty($_POST['content']) ){
+                
+                $demand_id = (int) $_GET['demand_id'];
+                
+                $comment = new Comment([
+                    'user_id' => $_controller->getUser()->getId(),
+                    'demand_id' => $demand_id,
+                    'comment_content' => $_POST['content'],
+                    'comment_date' => date("Y-m-d")
+                ]);
+                
+                $_controller->getCommentManager()->add($comment);
+                header('Location: ../../?page=demand_view&demand_id='.$_GET['demand_id']);
 
-        <!--/div-->
-    </div>
-</form>
+            }else{
+                header('Location: ../../?page=comment_form_post&error=missing&demand_id='.$_GET['demand_id']);
+            }
+        }else{
+            header('Location: ../../?page=comment_form_post&error=unknown&demand_id='.$_GET['demand_id']);
+        }
+    }else{
+        header('Location: ../../?error=invalid_id');
+    }
+}else{
+    header('Location: ../../?error=unknown');
+}

@@ -7,10 +7,11 @@ set FOREIGN_KEY_CHECKS = 0;
 -- Table for users
 create table if not exists `User`(
     `user_id`         int auto_increment primary key comment "ID of the user",
-    `user_entity`     varchar(20) not null comment "the entity of the user",
+    `user_isAdmin`    bool not null default 0 comment "is the user an admin or not ?",
     `user_first_name` varchar(20) not null comment "first name of the user",
     `user_last_name`  varchar(20) not null comment "last name of the user",
     `user_email` 	  varchar(50) not null comment "email of the user",
+    `user_entity`     varchar(20) not null comment "the entity of the user",
     -- the user doesn't have to give his address or his phone number if he doesn't want to
     `user_address`    varchar(50) comment "address of the user",
     `user_phone`      char(10)    comment "phone number of the user",
@@ -23,7 +24,8 @@ create table if not exists `User`(
 -- Table for the projects
 create table if not exists `Project` (
     `project_id`   int auto_increment primary key comment "ID of the project",
-    `project_name` varchar(20) not null comment "name of the project"
+    `project_name` varchar(20) not null comment "name of the project",
+    unique key `u_Project_project_name`(`project_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment="contains the projects";
 
 -- Table for mapping users with projects
@@ -65,3 +67,5 @@ create table if not exists `Comment`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment="contains the comments of the users on the demands that have been made";
 
 set FOREIGN_KEY_CHECKS = 1;
+
+insert into `User`(`user_isAdmin`,`user_entity`,`user_first_name`,`user_last_name`,`user_email`,`user_password`) values (1, "Suivi Client", "root", "root", "root@root", "dc76e9f0c0006e8f919e0c515c66dbba3982f785");

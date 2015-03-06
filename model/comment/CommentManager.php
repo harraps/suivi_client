@@ -12,7 +12,7 @@ class CommentManager {
         $q = $this->_db->prepare(
             'INSERT INTO `Comment` SET '
             .'`user_id` = :user, '
-            .'`demand_id` = :demand '
+            .'`demand_id` = :demand, '
             .'`comment_content` = :content, '
             .'`comment_date` = :date '
         );
@@ -23,20 +23,33 @@ class CommentManager {
         $q->execute();
     }
 
-    public function delete(Comment $comment){
-        $this->_db->exec('DELETE FROM `Comment` WHERE `comment_id` = '.$comment->getId());
+    public function delete($comment_id){
+        $this->_db->exec('DELETE FROM `Comment` WHERE `comment_id` = '.$comment_id);
     }
 
     public function get($id){
         $id = (int) $id;
         $q = $this->_db->query('SELECT * FROM `Comment` WHERE `comment_id` = '.$id);
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        return new Comment($data);
+        // we check that fetch return a line
+        if( $data = $q->fetch(PDO::FETCH_ASSOC) ){
+            return new Comment($data);
+        }
     }
 
     public function getList(){
         $comments = [];
         $q = $this->_db->query('SELECT * FROM `Comment` ORDER BY `comment_date`');
+        while ($data = $q->fetch(PDO::FETCH_ASSOC)){
+            $comments[] = new Comment($data);
+        }
+        return $comments;
+    }
+    
+    public function getByDemandId($demand_id){
+        $demand_id = (int) $demand_id;
+
+        $comments = [];
+        $q = $this->_db->query('SELECT * FROM `Comment` WHERE `demand_id` = '.$demand_id.' ORDER BY `comment_date`');
         while ($data = $q->fetch(PDO::FETCH_ASSOC)){
             $comments[] = new Comment($data);
         }

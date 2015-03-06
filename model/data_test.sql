@@ -8,6 +8,7 @@ insert into `Comment`(`user_id`,`demand_id`,`comment_content`,`comment_date`) va
 */
 
 select * from `User`;
+select * from `UserProject`;
 select * from `Project`;
 select * from `Demand`;
 select * from `Comment`;

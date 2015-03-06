@@ -1,0 +1,34 @@
+Bonjour,
+
+comme convenu lors du dernier cours, vous trouverez ci-joint une précision quant au besoin du projet.
+
+Cependant, comme dans tout projet, le client ne peut donner que ce qu'il a et ne comptez pas sur moi pour vous donner un modèle de données
+(jamais aucun client ne m'en a donné un et tant mieux...).
+
+Voici donc quelques "histoires" qui est une méthodologie agile sur ce que j'attends du projet,
+elle ne sont pas exhaustives mais en général lors d'un projet,
+elle ne le sont jamais, chaque développeur doit apporter un peu de lui dans son développement...
+
+
+en tant que client je veux :
+
+- pouvoir me logger au logiciel et voir les informations liées à "mon" projet
+- je ne veux pas voir les informations des autres projets
+- pouvoir saisir une demande, fixer une date de livraison souhaitée, valider une phase de test, valider une mise en production
+- pouvoir modifier une demande
+- pouvoir ajouter un commentaire à une demande
+
+
+en tant que chef de projet je veux:
+
+- me logger et voir l'ensemble des projets
+- pouvoir créer/modifier/supprimer un projet
+- pouvoir créer/modifier/supprimer un utilisateur
+- créer/modifier/supprimer une demande
+- commenter une demande
+- donner une date de mise en test à une demande
+- donner une date de mise en prod à une demande
+
+Les projets sont à rendre pour le 9 mars, bon courage.
+
+Bien à vous

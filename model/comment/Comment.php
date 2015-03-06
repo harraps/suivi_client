@@ -81,10 +81,7 @@ class Comment {
     public function getDate(){
         return $this->_date;
     }
-    public function setDate($date = null){
-        if( $date == null ){
-            $date = date("Y-m-d");
-        }
+    public function setDate($date){
         if( $this->validateDate($date) ){
             $this->_date = $date;
         }else{

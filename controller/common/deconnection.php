@@ -1,12 +1,10 @@
 <?php
 
-    session_start();
-    $_SESSION = array();
-    session_destroy();
+session_start();
+$_SESSION = array();
+session_destroy();
 
-    setcookie('id', '');
-    setcookie('firstname', '');
-    setcookie('lastname', '');
-    setcookie('password', '');
+setcookie('id', '');
+setcookie('password', '');
 
-    header('Location: ../../');
+header('Location: ../../');

@@ -6,7 +6,31 @@
     </div>
 </div>
 
-<form action="controller/user/connection_post.php" class="row">
+<?php if( isset($_GET['error']) ){ ?>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Attention !</h4>
+            <p>
+            <?php 
+                if( $_GET['error'] == "missing" ){
+                    echo "Vous avez oublié de remplir les champs.";
+                }elseif( $_GET['error'] == "password" ){
+                    echo "Le mot de passe n'est pas valide.";
+                }elseif( $_GET['error'] == "email" ){
+                    echo "L'email que vous avez spécifié ne correspond à aucun compte.";
+                }else{
+                    echo "Une erreur inconnue est survenue.";
+                }
+            ?>
+            </p>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+<form action="controller/user/connection_post.php" method="post" class="row">
     <div class="col-sm-6 col-sm-offset-3 well">
         <div class="form-horizontal">
 
@@ -28,7 +52,7 @@
                 <div class="col-lg-12">
                     <div class="pull-right">
                         <button type="reset" class="btn btn-default">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Valider</button>
+                        <button type="submit" class="btn btn-success">Valider</button>
                     </div>
                 </div>
             </div>

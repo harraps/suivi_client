@@ -2,7 +2,7 @@
 
 class DemandManager {
 
-    private $_database;
+    private $_db;
 
     public function __construct(PDO $db){
         $this->setDatabase($db);
@@ -35,22 +35,36 @@ class DemandManager {
         $q->execute();
     }
 
-    public function delete(Demand $demand){
-        $this->_db->exec('DELETE FROM `Demand` WHERE `demand_id` = '.$demand->getId());
+    public function delete($demand_id){
+        $this->_db->exec('DELETE FROM `Comment` WHERE `demand_id` = '.$demand_id);
+        $this->_db->exec('DELETE FROM `Demand`  WHERE `demand_id` = '.$demand_id);
     }
 
     public function get($id){
         $id = (int) $id;
         $q = $this->_db->query('SELECT * FROM `Demand` WHERE `demand_id` = '.$id);
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        return new Project($data);
+        // we check that fetch return a line
+        if( $data = $q->fetch(PDO::FETCH_ASSOC) ){
+            return new Demand($data);
+        }
     }
 
     public function getList(){
         $demands = [];
         $q = $this->_db->query('SELECT * FROM `Demand` ORDER BY `demand_title`');
         while ($data = $q->fetch(PDO::FETCH_ASSOC)){
-            $demands[] = new User($data);
+            $demands[] = new Demand($data);
+        }
+        return $demands;
+    }
+    
+    public function getByProjectId($project_id){
+        $project_id = (int) $project_id;
+        
+        $demands = [];
+        $q = $this->_db->query('SELECT * FROM `Demand` WHERE `project_id` = '.$project_id.' ORDER BY `demand_title`');
+        while ($data = $q->fetch(PDO::FETCH_ASSOC)){
+            $demands[] = new Demand($data);
         }
         return $demands;
     }
@@ -85,7 +99,7 @@ class DemandManager {
     }
 
     public function setDatabase(PDO $database){
-        $this->_database = $database;
+        $this->_db = $database;
     }
 
 }

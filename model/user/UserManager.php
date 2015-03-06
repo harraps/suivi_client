@@ -11,6 +11,7 @@ class UserManager {
     public function add(User $user){
         $q = $this->_db->prepare(
             'INSERT INTO `User` SET '
+            .'`user_isAdmin` = :isAdmin, '
             .'`user_entity` = :entity, '
             .'`user_first_name` = :firstname, '
             .'`user_last_name` = :lastname, '
@@ -19,6 +20,7 @@ class UserManager {
             .'`user_phone` = :phone, '
             .'`user_password` = :password '
         );
+        $q->bindValue(':isAdmin', $user->getIsAdmin());
         $q->bindValue(':entity', $user->getEntity());
         $q->bindValue(':firstname', $user->getFirstname());
         $q->bindValue(':lastname', $user->getLastname());
@@ -29,22 +31,30 @@ class UserManager {
         $q->execute();
     }
 
-    public function delete(User $user){
-        $this->_db->exec('DELETE FROM `User` WHERE `user_id` = '.$user->getId());
+    public function delete($user_id){
+        $user_id = (int) $user_id;
+        // we remove the user from both the User table and the UserProject table
+        $this->_db->exec('DELETE FROM `UserProject` WHERE `user_id` = '.$user_id);
+        $this->_db->exec('DELETE FROM `Comment` WHERE `user_id` = '.$user_id);
+        $this->_db->exec('DELETE FROM `Demand`  WHERE `user_id` = '.$user_id);
+        $this->_db->exec('DELETE FROM `User`    WHERE `user_id` = '.$user_id);
     }
 
     public function get($id){
         $id = (int) $id;
         $q = $this->_db->query('SELECT * FROM `User` WHERE `user_id` = '.$id);
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        return new User($data);
+        if( $data = $q->fetch(PDO::FETCH_ASSOC) ){
+            return new User($data);
+        }
     }
     
+    // recover an user using his email
     public function getByEmail($email){
         if( is_string($email) ){
             $q = $this->_db->query('SELECT * FROM `User` WHERE `user_email` = "'.$email.'"');
-            $data = $q->fetch(PDO::FETCH_ASSOC);
-            return new User($data);
+            if( $data = $q->fetch(PDO::FETCH_ASSOC) ){
+                return new User($data);
+            }
         }
     }
 
@@ -60,6 +70,7 @@ class UserManager {
     public function update(User $user){
         $q = $this->_db->prepare(
             'UPDATE `User` SET '
+            .'`user_isAdmin` = :isAdmin, '
             .'`user_entity` = :entity, '
             .'`user_first_name` = :firstname, '
             .'`user_last_name` = :lastname, '
@@ -69,6 +80,7 @@ class UserManager {
             .'`user_password` = :password '
             .'WHERE `user_id` = :id'
         );
+        $q->bindValue(':isAdmin', $user->getIsAdmin());
         $q->bindValue(':entity', $user->getEntity());
         $q->bindValue(':firstname', $user->getFirstname());
         $q->bindValue(':lastname', $user->getLastname());
@@ -82,17 +94,6 @@ class UserManager {
 
     public function setDatabase(PDO $database){
         $this->_db = $database;
-    }
-    
-    public function checkSession($id, $pass){
-        $id = (int) $id;
-        if( is_string($pass) ){
-            $user = $this->get($id);
-            if( $pass == $user->getPassword() ){
-                return true;
-            }
-        }
-        return false;
     }
 
 }

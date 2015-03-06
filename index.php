@@ -1,5 +1,7 @@
 <?php
-    session_start();
+    $RootDir = ""; // we set the Root directory relatively to this file
+    $RootURL = "/suivi_client/"; // we set the Root URL relatively to this project
+require_once('controller/Controller.php'); // the Controller.php contains the access to the database as well as the managers
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,10 +18,6 @@
         
         <div class="container">
             <?php
-                // we store the root of the project in a global variable
-                $RootDir = __DIR__;
-                include_once('controller/common/dbConnection.php');
-                include_once('controller/common/controller.php');
 
                 // we add the main menu to the page
                 include_once('view/common/menu.php');
@@ -31,6 +29,7 @@
                     $page = $_GET['page'];
                 }
                 
+                // TODO redirect the user if not allowed to go to a page
                 switch ($page){
                     case 'accueil' :
                         include ('view/accueil/accueil.php');
@@ -40,6 +39,9 @@
                         break;
                     case 'inscription' :
                         include ('view/user/inscription.php');
+                        break;
+                    case 'user_list' :
+                        include ('view/user/user_list.php');
                         break;
                     case 'comment_form' :
                         include ('view/comment/comment_form.php');
@@ -53,11 +55,17 @@
                     case 'demand_list' :
                         include ('view/demand/demand_list.php');
                         break;
+                    case 'demand_view' :
+                        include ('view/demand/demand_view.php');
+                        break;
                     case 'project_form' :
                         include ('view/project/project_form.php');
                         break;
                     case 'project_list' :
                         include ('view/project/project_list.php');
+                        break;
+                    case 'project_view' :
+                        include ('view/project/project_view.php');
                         break;
                     default :
                         include ('view/accueil/accueil.php');
