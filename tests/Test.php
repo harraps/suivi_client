@@ -1,13 +1,16 @@
 <?php
 
 $RootDir = "../";
-//require_once('../controller/Controller.php');
-
 require_once($RootDir.'model/user/User.php');
-//require_once($RootDir.'model/user/UserManager.php');
 require_once($RootDir.'model/project/Project.php');
-//require_once($RootDir.'model/project/ProjectManager.php');
 require_once($RootDir.'model/demand/Demand.php');
-//require_once($RootDir.'model/demand/DemandManager.php');
 require_once($RootDir.'model/comment/Comment.php');
-//require_once($RootDir.'model/comment/CommentManager.php');
+
+/*
+
+phpunit --bootstrap Test.php model/UserTest.php
+phpunit --bootstrap Test.php model/ProjectTest.php
+phpunit --bootstrap Test.php model/DemandTest.php
+phpunit --bootstrap Test.php model/CommentTest.php
+
+*/

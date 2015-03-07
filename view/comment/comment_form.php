@@ -42,7 +42,7 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <div class="pull-right">
-                        <button type="reset" class="btn btn-default">Annuler</button>
+                        <a href="<?php echo $RootURL.'?page=demand_view&demand_id='.$_GET['demand_id']; ?>" class="btn btn-default">Annuler</a>
                         <button type="submit" class="btn btn-primary">Valider</button>
                     </div>
                 </div>

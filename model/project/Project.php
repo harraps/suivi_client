@@ -57,12 +57,15 @@ class Project {
     public function setUsers($users_id){
         if( is_array($users_id) ){
             
-            // we make sure that the array contains only ints
+            // we make sure that the array contains only positive ints
+            $results = [];
             foreach( $users_id as &$u ){
                 $u = (int) $u;
+                if( $u > 0 ){
+                    $results[] = $u;
+                }
             }
-            $this->_users_id = $users_id;
-            
+            $this->_users_id = $results;
         }else{
             throw new Exception('Parameter not of the correct type, should be array.');
         }

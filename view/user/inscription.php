@@ -1,7 +1,28 @@
+
+<?php
+$hasRights = FALSE;
+if( isset($_GET['user_id']) && $_controller->getIsConnected() ){
+    if( !empty($_GET['user_id']) ){
+        $user_id = $_GET['user_id'];
+        if( 
+            $_controller->getIsAdmin() ||
+            ($_controller->getUser()->getId() == $user_id)
+        ){
+            $hasRights = TRUE;
+            $user = $_controller->getUserManager()->get($user_id);
+        }
+    }
+}
+?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="page-header">
-            <h1>Inscription</h1>
+            <?php if($hasRights){ ?>
+                <h1>Modification</h1>
+            <?php }else{ ?>
+                <h1>Inscription</h1>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -28,23 +49,8 @@
         </div>
     </div>
 </div>
-<?php
-    }
-    
-    $hasRights = FALSE;
-    if( isset($_GET['user_id']) && $_controller->getIsConnected() ){
-        if( !empty($_GET['user_id']) ){
-            $user_id = $_GET['user_id'];
-            if( 
-                $_controller->getIsAdmin() ||
-                ($_controller->getUser()->getId() == $user_id)
-            ){
-                $hasRights = TRUE;
-                $user = $_controller->getUserManager()->get($user_id);
-            }
-        }
-    }
-?>
+<?php } ?>
+
 <form action="controller/user/inscription_post.php<?php if($hasRights) echo '?user_id='.$user->getId(); ?>" method="post" class="row well">
     <div class="col-sm-6">
         <div class="form-horizontal">
@@ -121,7 +127,7 @@
     <div class="col-sm-12">
         <div class="form-group">
             <div class="pull-right">
-                <button type="reset" class="btn btn-default">Annuler</button>
+                <a href="<?php echo $RootURL; ?>" class="btn btn-default">Annuler</a>
                 <button type="submit" class="btn btn-success">Valider</button>
             </div>
         </div>

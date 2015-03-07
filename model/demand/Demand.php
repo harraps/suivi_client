@@ -109,63 +109,50 @@ class Demand {
         return $this->_date_creation;
     }
     public function setDateCreation( $date_creation ){
-        if( $this->validatedate($date_creation) ){
-            $this->_date_creation = $date_creation;
-        }else{
-            throw new Exception('Parameter not of the correct type, should be date.');
-        }
+        $this->attributeDate($this->_date_creation, $date_creation);
     }
     
     public function getDateWished(){
         return $this->_date_wished;
     }
     public function setDateWished( $date_wished ){
-        if( $this->validatedate($date_wished) ){
-            $this->_date_wished = $date_wished;
-        }else{
-            throw new Exception('Parameter not of the correct type, should be date.');
-        }
+        $this->attributeDate($this->_date_wished, $date_wished);
     }
     
     public function getDateTest(){
         return $this->_date_test;
     }
     public function setDateTest( $date_test ){
-        if( $this->validatedate($date_test) ){
-            $this->_date_test = $date_test;
-        }else{
-            throw new Exception('Parameter not of the correct type, should be date.');
-        }
+        $this->attributeDate($this->_date_test, $date_test);
     }
     
     public function getDateTestValidation(){
         return $this->_date_test_valid;
     }
     public function setDateTestValidation( $date_test_valid ){
-        if( $this->validatedate($date_test_valid) ){
-            $this->_date_test_valid = $date_test_valid;
-        }else{
-            throw new Exception('Parameter not of the correct type, should be date.');
-        }
+        $this->attributeDate($this->_date_test_valid, $date_test_valid);
     }
     
     public function getDateProduction(){
         return $this->_date_prod;
     }
     public function setDateProduction( $date_prod ){
-        if( $this->validatedate($date_prod) ){
-            $this->_date_prod = $date_prod;
-        }else{
-            throw new Exception('Parameter not of the correct type, should be date.');
-        }
+        $this->attributeDate($this->_date_prod, $date_prod);
     }
     
     public function getDateProductionValidation(){
         return $this->_date_prod_valid;
     }
     public function setDateProductionValidation( $date_prod_valid ){
-        if( $this->validatedate($date_prod_valid) ){
-            $this->_date_prod_valid = $date_prod_valid;
+        $this->attributeDate($this->_date_prod_valid, $date_prod_valid);
+    }
+    
+    private function attributeDate( &$attr, $date ){
+        if( $this->validateDate($date) ){
+            $attr = $date;
+        }elseif( $this->validateDate($date, "d/m/Y") ){
+            $d = DateTime::createFromFormat("d/m/Y", $date);
+            $attr = $d->format("d/m/Y");
         }else{
             throw new Exception('Parameter not of the correct type, should be date.');
         }

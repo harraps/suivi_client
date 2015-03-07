@@ -13,10 +13,11 @@ create table if not exists `User`(
     `user_email` 	  varchar(50) not null comment "email of the user",
     `user_entity`     varchar(20) not null comment "the entity of the user",
     -- the user doesn't have to give his address or his phone number if he doesn't want to
-    `user_address`    varchar(50) comment "address of the user",
+    `user_address`    varchar(70) comment "address of the user",
     `user_phone`      char(10)    comment "phone number of the user",
     -- the password of the user has to be encrypted for security reasons
-    `user_password`   varchar(40) not null comment "encrypted password of the user",
+    -- the encrypted password takes exactly 40 characters to be strored
+    `user_password`   char(40) not null comment "encrypted password of the user",
     -- two users cannot have the same email address
     unique key `u_User_user_email`(`user_email`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment="contains the users";
@@ -68,4 +69,7 @@ create table if not exists `Comment`(
 
 set FOREIGN_KEY_CHECKS = 1;
 
-insert into `User`(`user_isAdmin`,`user_entity`,`user_first_name`,`user_last_name`,`user_email`,`user_password`) values (1, "Suivi Client", "root", "root", "root@root", "dc76e9f0c0006e8f919e0c515c66dbba3982f785");
+insert into `User`
+(`user_isAdmin`,`user_entity`,`user_first_name`,`user_last_name`,`user_email`,`user_password`)
+values
+(1, "Suivi Client", "root", "root", "root@root", "dc76e9f0c0006e8f919e0c515c66dbba3982f785");

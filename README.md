@@ -1,67 +1,31 @@
-# suivi_client (pour le 9 mars 2015)
-Projet d'application web de suivit de clientelle (cours IHM - intervenant)
-envoyer le projet par mail à coelho@henji.fr
+# Projet de qualité logicielle réalisé par Olivier Schyns
 
-<table>
-<tr> <th>User</th> <th>Project</th> <th>UserProject</th> <th>Demand</th> <th>Comment</th> </tr>
-<tr>
+Le site a été réalisé sous wamp et mySQL.
+Les tests unitaires on été réalisé via PHPUnit.
 
- <td><ul>
- <li>id</li>
- <li>entity</li>
- <li>first name</li>
- <li>last name</li>
- <li>email</li>
- <li>address</li>
- <li>phone</li>
- <li>password encrypted</li>
- </ul></td>
- 
- <td><ul>
- <li>id</li>
- <li>name</li>
- </ul></td>
- 
- <td><ul>
- <li>id_user</li>
- <li>id_project</li>
- </ul></td>
- 
- <td><ul>
- <li>id</li>
- <li>title</li>
- <li>content</li>
- <li>id_author</li>
- <li>id_project</li>
- <li>date creation</li>
- <li>date wished</li>
- <li>date test</li>
- <li>date test validation</li>
- <li>date production</li>
- <li>date production validation</li>
- </ul></td>
- 
- <td><ul>
- <li>id</li>
- <li>id_user</li>
- <li>id_demand</li>
- <li>content</li>
- <li>date</li>
- </ul></td>
- 
-</tr>
-</table>
+Pour fonctionner, le dossier du projet doit être placé dans le répertoire wamp/www/
+On obtient alors le hiérarchie suivante: wamp/www/suivi_client/
 
-le site doit permettre pour chaque USER/PROJECT/ASK (utilisateur, projet, demande)
-de pouvoir CREATE/UPDATE/DELETE
+Il faut ensuite exécuter le script data_gen.sql pour générer la base de données.
+Vous pouvez aussi exécuter le script data_test.sql pour générer des données de tests.
 
-le login se fait par email
-il faut un logout
+Pour accéder à la page d'accueil, il faut ce rendre à l'adresse: localhost/suivi_client/
+À partir de là, vous pourrez vous connecter en tant que super-utilisateur:
+    Login:      root@root
+    Password:   root
 
-les vues sont :
-- login
-- list user + form
-- list projects + form
-- list asks + form
+Si vous avez exécuté le script data_test.sql,
+vous pouvez aussi vous connecter en tant qu'utilisateur simple:
+    Login:      jean.dupont@mail.fr
+    Password:   123
+ou
+    Login:      pierre.dubois@mail.fr
+    Password:   123
 
-Il faut un script de tests Unitaires
+
+Seul les super-utilisateurs peuvent créer/modifier/supprimer des projets.
+Les utilisateurs simples peuvent ajouter/modifier/supprimer des demandes sur les projets auxquels ils ont accès.
+Les format de Date accepté sont yyyy-mm-dd ou dd/mm/yyyy, tout autre format est refusé.
+Les fichiers index.php présent dans chaqu'un des répertoires du projets permettent de rediriger l'utilisateur vers la page d'accueil pour éviter qu'il n'ai accès aux sources du site.
+Dans la liste des utilisateurs, les super-utilisateurs sont marqués en vert.
+Les demandes dont le temps de livraison désiré a été dépassé sont marquées en rouge.

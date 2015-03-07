@@ -51,7 +51,7 @@
             <div class="form-group">
                 <div class="col-lg-12">
                     <div class="pull-right">
-                        <button type="reset" class="btn btn-default">Annuler</button>
+                        <a href="<?php echo $RootURL; ?>" class="btn btn-default">Annuler</a>
                         <button type="submit" class="btn btn-success">Valider</button>
                     </div>
                 </div>

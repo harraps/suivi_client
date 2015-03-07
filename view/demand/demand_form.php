@@ -67,10 +67,13 @@
     }
 
     $action;
+    $return;
     if($isModif){
         $action = 'demand_id='.$demand->getId();
+        $return = $RootURL.'?page=demand_view&demand_id='.$demand->getId();
     }else{
         $action = 'project_id='.$project->getId();
+        $return = $RootURL.'?page=project_view&project_id='.$project->getId();
     }
 ?>
 <form action="controller/demand/demand_form_post.php?<?php echo $action; ?>" method="post" class="row">
@@ -87,7 +90,7 @@
             <div class="form-group">
                 <label for="textArea" class="col-sm-3 control-label">Contenu</label>
                 <div class="col-sm-9">
-                    <textarea class="form-control" rows="3" id="textArea" name="content" style="resize:vertical;" value="<?php if($isModif) echo $demand->getContent(); ?>"></textarea>
+                    <textarea class="form-control" rows="3" id="textArea" name="content" style="resize:vertical;"><?php if($isModif) echo $demand->getContent(); ?></textarea>
                     <span class="help-block">Ajoutez votre demande sur le projet que vous avez sélectionné (500 caractères maximum).</span>
                 </div>
             </div>
@@ -117,7 +120,7 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <div class="pull-right">
-                        <button type="reset" class="btn btn-default">Annuler</button>
+                        <a href="<?php echo $return; ?>" class="btn btn-default">Annuler</a>
                         <button type="submit" class="btn btn-primary">Valider</button>
                     </div>
                 </div>

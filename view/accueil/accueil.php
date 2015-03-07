@@ -26,14 +26,14 @@
         <h1>Bienvenue</h1>
         <p>Pour utiliser notre service de suivi de projet, veuillez vous connecter.</p>
         <div>
-            <a href="/suivi_client/?page=inscription" class="btn btn-default">Inscription</a>
-            <a href="/suivi_client/?page=connection" class="btn btn-primary">Connection</a>
+            <a href="<?php echo $RootURL; ?>?page=inscription" class="btn btn-default">Inscription</a>
+            <a href="<?php echo $RootURL; ?>?page=connection" class="btn btn-primary">Connection</a>
         </div>
         <?php }else{ ?>
         <h1>Bienvenue <?php echo $_controller->getUser()->getFirstName()." ".$_controller->getUser()->getLastName(); ?>,</h1>
         <p>Nous vous invitons à voir vos projets.</p>
         <div>
-            <a href="/suivi_client/?page=project_list" class="btn btn-primary">Mes projets</a>
+            <a href="<?php echo $RootURL; ?>?page=project_list" class="btn btn-primary">Mes projets</a>
         </div>
         <?php } ?>
     </div>

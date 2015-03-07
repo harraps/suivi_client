@@ -103,7 +103,13 @@
             <div class="form-group well">
                 <div class="col-sm-12">
                     <div class="pull-right">
-                        <button type="reset" class="btn btn-default">Annuler</button>
+                        <?php
+                            $return = $RootURL.'?page=project_list';
+                            if( $isModif ){
+                                $return = $RootURL.'?page=project_view&project_id='.$project->getId();
+                            }
+                        ?>
+                        <a href="<?php echo $return; ?>" class="btn btn-default">Annuler</a>
                         <button type="submit" class="btn btn-primary">Valider</button>
                     </div>
                 </div>
